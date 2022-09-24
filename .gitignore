@@ -1,0 +1,6 @@
+.vs
+.vs/**
+**.cache
+*/obj/Debug
+[Bb]in/
+[Oo]bj/

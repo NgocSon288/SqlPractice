@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FundManagement.Common\FundManagement.Common.csproj" />
+    <ProjectReference Include="..\FundManagement.DataAccess\FundManagement.DataAccess.csproj" />
+    <ProjectReference Include="..\FundManagement.Service\FundManagement.Service.csproj" />
+    <ProjectReference Include="..\FundManagement.ViewModel\FundManagement.ViewModel.csproj" />
+    <ProjectReference Include="..\FundMangement.EntityFramework\FundMangement.EntityFramework.csproj" />
+  </ItemGroup>
+
+</Project>

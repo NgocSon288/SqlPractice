@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FundManagement.Common\FundManagement.Common.csproj" />
+    <ProjectReference Include="..\FundMangement.EntityFramework\FundMangement.EntityFramework.csproj" />
+  </ItemGroup>
+
+</Project>
