@@ -52,6 +52,7 @@ namespace FundManagement
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<IReportService, ReportService>();
 
             var a = typeof(ConsumeService).Assembly.GetTypes();
             var b = a.Where(s => s.Name.EndsWith("Service") && s.IsInterface == false).ToList();
