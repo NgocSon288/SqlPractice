@@ -9,7 +9,7 @@ namespace FundManagement.Service.Infrastructure
 {
     public class ConsumeService : BaseService<Consume, int>, IConsumeService
     {  
-        public ConsumeService(IConsumeRepository ConsumeRepository, IUnitOfWork unitOfWork, IDbFactory dbFactory) : base(ConsumeRepository, unitOfWork, dbFactory)
+        public ConsumeService(IConsumeRepository ConsumeRepository, IUnitOfWork unitOfWork) : base(ConsumeRepository, unitOfWork)
         {
 
         }

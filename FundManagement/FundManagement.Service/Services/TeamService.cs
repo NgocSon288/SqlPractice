@@ -9,7 +9,7 @@ namespace FundManagement.Service.Infrastructure
 {
     public class TeamService : BaseService<Team, int>, ITeamService
     {  
-        public TeamService(ITeamRepository TeamRepository, IUnitOfWork unitOfWork, IDbFactory dbFactory) : base(TeamRepository, unitOfWork, dbFactory)
+        public TeamService(ITeamRepository TeamRepository, IUnitOfWork unitOfWork) : base(TeamRepository, unitOfWork)
         { 
         }
     }

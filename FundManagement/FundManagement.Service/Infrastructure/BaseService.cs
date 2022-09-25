@@ -8,16 +8,14 @@ namespace FundManagement.Service.Infrastructure
     public abstract class BaseService<TEntity, TKey> : IBaseService<TEntity, TKey>
     {
         protected readonly IBaseRepository<TEntity, TKey> _repo;
-        protected readonly IUnitOfWork _unitOfWork;
-        protected readonly IDbFactory _dbFactory;
+        protected readonly IUnitOfWork _unitOfWork; 
         protected AppDbContext appDbContext;
-        public BaseService(IBaseRepository<TEntity, TKey> repo, IUnitOfWork unitOfWork, IDbFactory dbFactory)
+        public BaseService(IBaseRepository<TEntity, TKey> repo, IUnitOfWork unitOfWork)
         {
             _repo = repo;
             _unitOfWork = unitOfWork;
-            _dbFactory = dbFactory;
 
-            appDbContext = _dbFactory.GetDbContext();
+            appDbContext = _unitOfWork.DbContext;
         }
         public virtual TEntity Insert(TEntity entity)
         {

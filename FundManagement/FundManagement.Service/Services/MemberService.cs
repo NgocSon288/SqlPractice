@@ -9,7 +9,7 @@ namespace FundManagement.Service.Infrastructure
 {
     public class MemberService : BaseService<Member, int>, IMemberService
     {  
-        public MemberService(IMemberRepository memberRepository, IUnitOfWork unitOfWork, IDbFactory dbFactory) : base(memberRepository, unitOfWork, dbFactory)
+        public MemberService(IMemberRepository memberRepository, IUnitOfWork unitOfWork) : base(memberRepository, unitOfWork)
         { 
         }
     }

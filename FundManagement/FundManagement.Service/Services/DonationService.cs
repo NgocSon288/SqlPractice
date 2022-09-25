@@ -9,7 +9,7 @@ namespace FundManagement.Service.Infrastructure
 {
     public class DonationService : BaseService<Donation, int>, IDonationService
     {
-        public DonationService(IDonationRepository DonationRepository, IUnitOfWork unitOfWork, IDbFactory dbFactory) : base(DonationRepository, unitOfWork, dbFactory)
+        public DonationService(IDonationRepository DonationRepository, IUnitOfWork unitOfWork) : base(DonationRepository, unitOfWork)
         {
 
         }

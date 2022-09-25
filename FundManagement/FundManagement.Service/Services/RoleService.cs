@@ -9,7 +9,7 @@ namespace FundManagement.Service.Infrastructure
 {
     public class RoleService : BaseService<Role, int>, IRoleService
     { 
-        public RoleService(IRoleRepository RoleRepository, IUnitOfWork unitOfWork, IDbFactory dbFactory) : base(RoleRepository, unitOfWork, dbFactory)
+        public RoleService(IRoleRepository RoleRepository, IUnitOfWork unitOfWork) : base(RoleRepository, unitOfWork)
         { 
         }
     }
