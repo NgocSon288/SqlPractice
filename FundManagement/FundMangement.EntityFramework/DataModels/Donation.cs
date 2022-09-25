@@ -11,5 +11,6 @@ namespace FundManagement.EntityFramework.DataModels
         public decimal Money { get; set; }
         public string Comment { get; set; }
         public int? MemberID { get; set; }
+        public int DestinationTeamID { get; set; }
     }
 }

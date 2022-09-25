@@ -10,5 +10,6 @@ namespace FundManagement.EntityFramework.DataModels
         public string Comment { get; set; }
         public decimal Money { get; set; }
         public DateTime Date { get; set; } 
+        public int TeamID { get; set; }
     }
 }
