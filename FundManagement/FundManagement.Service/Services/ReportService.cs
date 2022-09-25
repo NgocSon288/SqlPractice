@@ -24,20 +24,22 @@ namespace FundManagement.Service.Infrastructure
             return appDbContext.ExecuteStoreQuery<MoneyOutput>(AppConstants.StoreProdedureConstants.GET_CURRENT_MONEY_BY_TEAM, parameters).FirstOrDefault();
         }
 
-        public MoneyOutput GetIncomeByMonthAndTeam(IncomOutcomeByMonthAndTeamInput input)
-        {
-            return GetInOutcomeByMonthAndTeam(AppConstants.StoreProdedureConstants.GET_INCOME_BY_MONTH_AND_TEAM, input);
-        }
-
-        public MoneyOutput GetOutcomeByMonthAndTeam(IncomOutcomeByMonthAndTeamInput input)
-        {
-            return GetInOutcomeByMonthAndTeam(AppConstants.StoreProdedureConstants.GET_OUTCOME_BY_MONTH_AND_TEAM, input);
-        }
-
-        private MoneyOutput GetInOutcomeByMonthAndTeam(string storedProcedure, IncomOutcomeByMonthAndTeamInput input)
+        public MoneyOutput GetIncomeByMonthAndTeam(MonthAndTeamInput input)
         {
             var parameters = Helper.ConvertObjectToDictionary(input);
-            return appDbContext.ExecuteStoreQuery<MoneyOutput>(storedProcedure, parameters).FirstOrDefault();
+            return appDbContext.ExecuteStoreQuery<MoneyOutput>(AppConstants.StoreProdedureConstants.GET_INCOME_BY_MONTH_AND_TEAM, parameters).FirstOrDefault();
+        }
+
+        public MoneyOutput GetOutcomeByMonthAndTeam(MonthAndTeamInput input)
+        {
+            var parameters = Helper.ConvertObjectToDictionary(input);
+            return appDbContext.ExecuteStoreQuery<MoneyOutput>(AppConstants.StoreProdedureConstants.GET_OUTCOME_BY_MONTH_AND_TEAM, parameters).FirstOrDefault();
+        }
+
+        public IEnumerable<RankingDonatorOutput> GetRankingDonatorsByMonthAndTeam(MonthAndTeamInput input)
+        {
+            var parameters = Helper.ConvertObjectToDictionary(input);
+            return appDbContext.ExecuteStoreQuery<RankingDonatorOutput>(AppConstants.StoreProdedureConstants.GET_RANKING_DONATORS_BY_MONTH_AND_TEAM, parameters);
         }
     }
 }

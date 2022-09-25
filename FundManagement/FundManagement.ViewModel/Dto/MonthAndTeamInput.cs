@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FundManagement.ViewModel.Dto
 {
-    public class IncomOutcomeByMonthAndTeamInput
+    public class MonthAndTeamInput
     {
         public int Month { get; set; }
         public int Year { get; set; }

@@ -39,7 +39,20 @@ SELECT @outcome = SUM(Money)
 FROM Consumes as c
 WHERE c.TeamID = @TeamID
 
-SELECT (@income-@outcome) as TotalMoney
-	  
+SELECT (@income-@outcome) as TotalMoney	  
 GO
+
+CREATE PROCEDURE GetRankingDonatorsByMonthAndTeam
+    @Month int,
+	@Year int,
+    @TeamID int  
+AS
+SELECT d.MemberID, m.Name, m.BirthDay, SUM(d.Money) AS TotalMoney, RANK() OVER(ORDER BY SUM(d.Money) desc) AS Ranking
+FROM Donations AS d INNER JOIN Members AS m ON d.MemberID = m.ID
+WHERE MONTH(d.Date) = @Month and 
+	  YEAR(d.Date) = @Year and 
+	  d.DestinationTeamID = @TeamID
+GROUP BY d.MemberID, m.Name, m.BirthDay
+
+exec GetRankingDonatorsByMonthAndTeam @month = 8, @year = 2022, @teamid = 1
 
