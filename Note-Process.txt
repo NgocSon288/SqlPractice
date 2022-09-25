@@ -9,4 +9,30 @@ Include
 	- (DONE) base on attribute instead of name (because name can be "MemberXXX")
 	- (DONE) create relationship for OneToMany
 	- (DONE) building include method by using Expression such as member => member.Donations
-	 
+
+
+Authentication - Authorization
+	- (DONE) within role
+	- (CAN) maintain ABS.Manager
+Step:
+	- Json
+	- config service
+	- Class Member (Username, Password)
+	- Class Token (Token, RefreshToken)
+	- Interface IJWTManagerRepository( Authentication method contains Member)
+	- JWTManagerRepository inplement from IJWTManagerRepository
+	- register service services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();
+
+	- create AuthenticationController for authenticating
+	- create api method for authenticate
+
+
+Postman
+	- Add Collectios -> click (+) to add new Collection (Member, Role)
+	- Add request for each Collection
+	- Headers
+		+ Key: Authorization
+		+ Value: Bearer tokenvalueaslkdnajsbdkabsdkabj
+
+	- [Authorize] contain the token key in the Bearer
+	- [Authorize(Roles = "Manager")] contain token key and having  Manager (claim)

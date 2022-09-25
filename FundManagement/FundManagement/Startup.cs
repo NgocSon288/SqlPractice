@@ -1,9 +1,11 @@
+using FundManagement.Authentication;
 using FundManagement.Common.Utils;
 using FundManagement.DataAccess;
 using FundManagement.DataAccess.Infrastructure;
 using FundManagement.DataAccess.Repository;
 using FundManagement.Service;
 using FundManagement.Service.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,11 +14,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FundManagement
@@ -51,13 +55,30 @@ namespace FundManagement
             services.AddScoped<IDonationService, DonationService>();
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<IRoleService, RoleService>();
-            services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<ITeamService, TeamService>();  
 
-            var a = typeof(ConsumeService).Assembly.GetTypes();
-            var b = a.Where(s => s.Name.EndsWith("Service") && s.IsInterface == false).ToList();
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                var Key = Encoding.UTF8.GetBytes(Configuration[AppConstants.JWT.KEY]);
+                o.SaveToken = true;
+                o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration[AppConstants.JWT.ISSUER],
+                    ValidAudience = Configuration[AppConstants.JWT.AUDIENCE],
+                    IssuerSigningKey = new SymmetricSecurityKey(Key)
+                };
+            });
 
-            //typeof(Program).Assembly.GetTypes()
-            //    .Where(s => s.Name.EndsWith("Service") && s.IsInterface == false).ToList();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IJWTManagerService, JWTManagerService>(); 
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -79,7 +100,8 @@ namespace FundManagement
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+             
+            app.UseAuthentication();  
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

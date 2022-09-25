@@ -12,9 +12,11 @@ using FundManagement.EntityFramework.DataModels;
 using FundManagement.ViewModel.Dto;
 using FundManagement.Service.Infrastructure;
 using FundManagement.Common.Api.Utils;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FundManagement.Controllers
 {
+    [Authorize(Roles = "Manager")]
     [Route("api/[controller]")]
     [ApiController]
     public class MembersController : BaseController<Member, int>

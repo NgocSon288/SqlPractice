@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FundManagement.DataAccess\FundManagement.DataAccess.csproj" />
+    <ProjectReference Include="..\FundManagement.ViewModel\FundManagement.ViewModel.csproj" />
   </ItemGroup>
 
 </Project>
