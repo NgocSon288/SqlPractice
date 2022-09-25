@@ -11,6 +11,7 @@ using FundManagement.Service;
 using FundManagement.EntityFramework.DataModels;
 using FundManagement.ViewModel.Dto;
 using FundManagement.Service.Infrastructure;
+using FundManagement.Common.Api.Utils;
 
 namespace FundManagement.Controllers
 {
@@ -20,6 +21,12 @@ namespace FundManagement.Controllers
     {  
         public MembersController(ILogger<MembersController> logger, IMemberService memberService) : base(logger, memberService)
         { 
+        }
+
+        [HttpGet("ByTeam/{teamId}")]
+        public ApiResult<IEnumerable<Member>> GetAllByTeamID(int? teamId)
+        {
+            return new ApiResult<IEnumerable<Member>>(_service.GetAll(x => x.TeamID == teamId));
         }
     }
 }
