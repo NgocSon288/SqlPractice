@@ -4,7 +4,8 @@ namespace FundManagement.Common.Models
 {
     public class BaseModel<TKey>
     {
-        [NonMapping]
-        public TKey ID { get; set; }
+        [PrimaryKey("ID")]
+        [NonMappingDatabase]
+        public virtual TKey ID { get; set; }
     }
 }

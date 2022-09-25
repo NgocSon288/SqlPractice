@@ -11,6 +11,7 @@ using FundManagement.Service;
 using FundManagement.EntityFramework.DataModels;
 using FundManagement.ViewModel.Dto;
 using FundManagement.Service.Infrastructure;
+using FundManagement.Common.Api.Utils;
 
 namespace FundManagement.Controllers
 {
@@ -20,6 +21,14 @@ namespace FundManagement.Controllers
     {  
         public MembersController(ILogger<MembersController> logger, IMemberService memberService) : base(logger, memberService)
         { 
+        }
+
+        [HttpGet]
+        public override ApiResult<IEnumerable<Member>> GetAll()
+        {
+            new ApiResult<IEnumerable<Member>>(_service.GetAll("Teamxxxaaa")); 
+            new ApiResult<IEnumerable<Member>>(_service.GetAll("Rolexxx")); 
+            return new ApiResult<IEnumerable<Member>>(_service.GetAll("Donationsxxxxx"));
         }
     }
 }

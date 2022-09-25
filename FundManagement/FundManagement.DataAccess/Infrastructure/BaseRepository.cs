@@ -1,5 +1,6 @@
 ﻿using FundManagement.Common.Models;
 using FundManagement.Common.Utils;
+using FundManagement.EntityFramework.DataModels;
 using FundManagement.EntityFramework.Utils.Helper;
 using FundMangement.EntityFramework.Core;
 using FundMangement.EntityFramework.Utils;
@@ -38,15 +39,20 @@ namespace FundManagement.DataAccess.Infrastructure
             }
         }
 
-        public virtual IEnumerable<TEntity> GetAll(Func<TEntity, bool> condition = null)
+        public virtual IEnumerable<TEntity> GetAll(string includeName = null, Func<TEntity, bool> condition = null)
         {
+            if(!string.IsNullOrEmpty(includeName))
+            {
+                DbSet = DbSet.Include<TEntity, TKey>(includeName);
+            }
+
             if (condition == null)
             {
                 return DbSet;
             }
 
             return DbSet.Where(condition);
-        }
+        } 
         public virtual TEntity FirstOrDefault(Func<TEntity, bool> condition = null)
         {
             return DbSet.FirstOrDefault(condition);
@@ -120,7 +126,7 @@ namespace FundManagement.DataAccess.Infrastructure
         private void Fetch()
         {
             var specificProp = GetSpecifictPropertyInfoBySetOfDbSet();
-            DbSet = specificProp.GetValue(DbContext) as DbSet<TEntity>;
+            DbSet = specificProp.GetValue(DbContext) as DbSet<TEntity>; 
         }
 
         /// <summary>
@@ -134,7 +140,7 @@ namespace FundManagement.DataAccess.Infrastructure
             foreach (var prop in DbContext.GetType().GetProperties())
             {
                 var propertyInfo = prop.PropertyType.GetProperty(EFConstants.DBSET_NAME);
-                var fullNamespace = Reflection.RefClass.GetClassNameWithinNamespace(propertyInfo);
+                var fullNamespace = Reflection.RefClass.GetClassNameWithinNamespaceFromDbSet(propertyInfo);
 
                 if (fullNamespace == entityNamespace)
                 {

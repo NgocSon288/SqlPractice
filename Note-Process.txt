@@ -1,0 +1,11 @@
+Attribute
+	-(DONE) Non mapping when get data from database loading to memory
+	-(DONE) mapping propery base on attribute name
+	-(DOING) Create foreign key mapping
+		- (DONE) create foreign attribute
+		- (DONE) mapping foreign key object
+
+Include
+	- (DONE) base on attribute instead of name (because name can be "MemberXXX")
+	- (DOING) create relationship for OneToMany
+	 

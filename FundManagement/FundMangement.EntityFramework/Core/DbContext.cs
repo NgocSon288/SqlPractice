@@ -32,10 +32,12 @@ namespace FundMangement.EntityFramework.Core
         #endregion
         public DbContext(string sqlConnectionString)
         {
+            _CurrentIntance = this;
             this.sqlConnectionString = sqlConnectionString;
             sqlStatement = new SqlStatement();
 
             Fetch();
+
         }
 
         #region Public Main
@@ -48,12 +50,11 @@ namespace FundMangement.EntityFramework.Core
                 var propertyInfo = prop.PropertyType.GetProperty(EFConstants.DBSET_NAME);
 
                 if (propertyInfo == null)
-                    continue;
-                 
-                var fullClassName = Reflection.RefClass.GetClassNameWithinNamespace(propertyInfo);
-                var tableName = Reflection.RefClass.GetAttributeValue(propertyInfo, nameof(TableAttribute)); // base on Attribute 
-                var type = Type.GetType(fullClassName); 
-                var result = Reflection.InvokePrivateMethod(typeof(DbContext), nameof(LoadDataFromTable), this, type, new object[] { tableName });
+                    continue; 
+
+                var fullClassName = Reflection.RefClass.GetClassNameWithinNamespaceFromDbSet(propertyInfo);
+                var type = Type.GetType(fullClassName);
+                var result = DbContext.GetDataFromTableOfDatabase(type);
 
                 prop.SetValue(this, result, null);
             }
@@ -119,7 +120,7 @@ namespace FundMangement.EntityFramework.Core
 
         #endregion
 
-        #region Private
+        #region Private 
         private DbSet<T> LoadDataFromTable<T>(string tableName)
         {
             DbSet<T> list = new DbSet<T>() { Type = typeof(T) };
@@ -138,7 +139,7 @@ namespace FundMangement.EntityFramework.Core
                     foreach (PropertyInfo prop in obj.GetType().GetProperties())
                     {
                         // Get Attribute of prop, if contain NonMapping => 
-                        if(Reflection.RefProperty.HasAttribute(prop, nameof(NonMappingAttribute)))
+                        if (Reflection.RefProperty.HasAttribute(prop, nameof(NonMappingMemoryAttribute)))
                         {
                             continue;
                         }
@@ -146,7 +147,7 @@ namespace FundMangement.EntityFramework.Core
                         // Set value for Complex type: Member, Role, Consome...
                         // Ignore mapping, map in Include extension method
                         var name = prop.PropertyType.Name;
-                        if(!name.Contains("Int")
+                        if (!name.Contains("Int")
                             && !name.Contains("String")
                             && !name.Contains("DateTime")
                             && !name.Contains("Nullable"))
@@ -156,7 +157,7 @@ namespace FundMangement.EntityFramework.Core
 
                         // Set value for Basic type: Int, String, DateTime...
                         var propertyDatabaseName = "";
-                        if (!Reflection.RefProperty.TryGetAttributeValue(prop, nameof(PropertyDatabaseNameAttribute), out propertyDatabaseName))
+                        if (!Reflection.RefProperty.TryGetAttributeValue(prop, nameof(ColumnDisplayNameAttribute), out propertyDatabaseName))
                         {
                             propertyDatabaseName = prop.Name;
                         }
@@ -220,6 +221,23 @@ namespace FundMangement.EntityFramework.Core
                 yield return (T)obj;
             }
         }
+
+        #endregion
+
+        #region Ensure only one intance, use to support DbSet extension for making Include() method
+
+        protected static DbContext _CurrentIntance;
+
+        #endregion
+
+        #region Global Access 
+        public static object GetDataFromTableOfDatabase(Type classType)
+        { 
+            var tableName = Reflection.RefClass.GetAttributeValue(classType, nameof(TableAttribute));
+
+            return Reflection.InvokePrivateMethod(typeof(DbContext), nameof(LoadDataFromTable), DbContext._CurrentIntance, new Type[] { classType }, new object[] { tableName });
+        } 
+
 
         #endregion
     }

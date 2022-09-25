@@ -7,7 +7,7 @@ namespace FundManagement.Service.Infrastructure
     {
         TEntity Insert(TEntity entity);
         IEnumerable<T> ExecuteStoreQuery<T>(string storeProcedureName, Dictionary<string, string> parameters);
-        IEnumerable<TEntity> GetAll(Func<TEntity, bool> condition = null);
+        IEnumerable<TEntity> GetAll(string includeName = null, Func<TEntity, bool> condition = null);
         TEntity GetById(TKey id);
         void RemoveById(TKey id);
         //void Rollback();

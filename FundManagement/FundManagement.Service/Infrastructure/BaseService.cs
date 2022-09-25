@@ -35,7 +35,7 @@ namespace FundManagement.Service.Infrastructure
                 throw new Exception(ex.Message);
             }
         }
-        public virtual IEnumerable<TEntity> GetAll(Func<TEntity, bool> condition = null) => _repo.GetAll(condition);
+        public virtual IEnumerable<TEntity> GetAll(string includeName, Func<TEntity, bool> condition = null) => _repo.GetAll(includeName, condition);
         public virtual TEntity GetById(TKey id) => _repo.GetById(id);
         public virtual void RemoveById(TKey id)
         {

@@ -3,9 +3,9 @@
 namespace FundManagement.Common.Custom.Attribute
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class NonMappingAttribute : System.Attribute
+    public class NonMappingMemoryAttribute : System.Attribute
     {
-        public NonMappingAttribute()
+        public NonMappingMemoryAttribute()
         {
         }
     }

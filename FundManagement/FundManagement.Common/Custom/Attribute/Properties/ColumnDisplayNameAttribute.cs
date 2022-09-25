@@ -3,10 +3,10 @@
 namespace FundManagement.Common.Custom.Attribute
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class PropertyDatabaseNameAttribute : System.Attribute
+    public class ColumnDisplayNameAttribute : System.Attribute
     {
         private string name;
-        public PropertyDatabaseNameAttribute(string name)
+        public ColumnDisplayNameAttribute(string name)
         {
             this.name = name;
         }

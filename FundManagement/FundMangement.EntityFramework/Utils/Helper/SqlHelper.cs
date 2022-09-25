@@ -18,7 +18,7 @@ namespace FundManagement.EntityFramework.Utils.Helper
 
             foreach (var prop in entity.GetType().GetProperties())
             {  
-                if(Reflection.RefProperty.HasAttribute(prop, nameof(NonMappingAttribute)))
+                if(Reflection.RefProperty.HasAttribute(prop, nameof(NonMappingDatabaseAttribute)))
                 {
                     continue;
                 } 
