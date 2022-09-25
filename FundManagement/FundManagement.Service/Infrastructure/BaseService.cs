@@ -2,6 +2,7 @@
 using System;
 using FundManagement.DataAccess.Infrastructure;
 using FundManagement.DataAccess;
+using System.Linq.Expressions;
 
 namespace FundManagement.Service.Infrastructure
 {
@@ -35,7 +36,7 @@ namespace FundManagement.Service.Infrastructure
                 throw new Exception(ex.Message);
             }
         }
-        public virtual IEnumerable<TEntity> GetAll(string includeName, Func<TEntity, bool> condition = null) => _repo.GetAll(includeName, condition);
+        public virtual IEnumerable<TEntity> GetAll(Expression<Func<TEntity, dynamic>> includeFunc = null, Func<TEntity, bool> condition = null) => _repo.GetAll(includeFunc, condition);
         public virtual TEntity GetById(TKey id) => _repo.GetById(id);
         public virtual void RemoveById(TKey id)
         {

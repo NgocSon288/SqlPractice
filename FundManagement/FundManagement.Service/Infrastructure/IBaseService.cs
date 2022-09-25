@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace FundManagement.Service.Infrastructure
 {
@@ -7,7 +9,7 @@ namespace FundManagement.Service.Infrastructure
     {
         TEntity Insert(TEntity entity);
         IEnumerable<T> ExecuteStoreQuery<T>(string storeProcedureName, Dictionary<string, string> parameters);
-        IEnumerable<TEntity> GetAll(string includeName = null, Func<TEntity, bool> condition = null);
+        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, dynamic>> includeFunc = null, Func<TEntity, bool> condition = null);
         TEntity GetById(TKey id);
         void RemoveById(TKey id);
         //void Rollback();

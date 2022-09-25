@@ -7,5 +7,6 @@ Attribute
 
 Include
 	- (DONE) base on attribute instead of name (because name can be "MemberXXX")
-	- (DOING) create relationship for OneToMany
+	- (DONE) create relationship for OneToMany
+	- (DONE) building include method by using Expression such as member => member.Donations
 	 

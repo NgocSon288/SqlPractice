@@ -15,16 +15,16 @@ namespace FundManagement.EntityFramework.DataModels
         public string Password { get; set; }
 
         [ColumnDisplayName("TeamID")]
-        public int? TeamIDaaa { get; set; }
-        
+        public int? TeamID { get; set; }
+
         [ColumnDisplayName("RoleID")]
-        public int? RoleIDaaa { get; set; }
+        public int? RoleID { get; set; }
 
-        [ForeignKey("TeamIDaaa")]
-        public Team Teamxxxaaa { get; set; }
+        [ForeignKey("TeamID")]
+        public Team Team { get; set; }
 
-        [ForeignKey("RoleIDaaa")]
-        public Role Rolexxx { get; set; }
+        [ForeignKey("RoleID")]
+        public Role Role { get; set; }
 
         [NonMappingMemory]
         public string Introduce
@@ -35,6 +35,6 @@ namespace FundManagement.EntityFramework.DataModels
             }
         }
 
-        public List<Donation> Donationsxxxxx { get; set; } 
+        public List<Donation> Donations { get; set; }
     }
 }

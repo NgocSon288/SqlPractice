@@ -37,13 +37,13 @@ namespace FundManagement.DataAccess.Infrastructure
             {
                 Fetch();
             }
-        }
+        }  
 
-        public virtual IEnumerable<TEntity> GetAll(string includeName = null, Func<TEntity, bool> condition = null)
+        public virtual IEnumerable<TEntity> GetAll(Expression<Func<TEntity, dynamic>> includeFunc = null, Func<TEntity, bool> condition = null)
         {
-            if(!string.IsNullOrEmpty(includeName))
+            if (includeFunc !=null)
             {
-                DbSet = DbSet.Include<TEntity, TKey>(includeName);
+                DbSet = DbSet.Include<TEntity, TKey>(includeFunc);
             }
 
             if (condition == null)
@@ -52,7 +52,7 @@ namespace FundManagement.DataAccess.Infrastructure
             }
 
             return DbSet.Where(condition);
-        } 
+        }
         public virtual TEntity FirstOrDefault(Func<TEntity, bool> condition = null)
         {
             return DbSet.FirstOrDefault(condition);

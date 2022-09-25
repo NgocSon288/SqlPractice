@@ -6,6 +6,7 @@ using FundMangement.EntityFramework.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,12 @@ namespace FundMangement.EntityFramework.Utils
 {
     public static class DbSetExtension
     {
-        public static DbSet<TEntity> Include<TEntity, TKey>(this DbSet<TEntity> entities, string includeName = null)
+        #region Extension Public
+        public static DbSet<TEntity> Include<TEntity, TKey>(this DbSet<TEntity> entities, Expression<Func<TEntity, dynamic>> func)
         {
+            dynamic body = func.Body;
+            string includeName = body.Member.Name;
+
             if (String.IsNullOrEmpty(includeName))
             {
                 return entities;
@@ -40,7 +45,9 @@ namespace FundMangement.EntityFramework.Utils
                 new Type[] { typeof(TEntity), typeof(TKey), type },
                 new object[] { entities, specifictPropertyInfo, foreignKeyIdName }) as DbSet<TEntity>;
         }
+        #endregion
 
+        #region Infrasture
         private static DbSet<TEntity> IncludeWithoutDestinationGeneric<TEntity, TKey, TDestinationEntity>(DbSet<TEntity> entities, PropertyInfo specifictPropertyInfo, string foreignKeyIdName)
         {
             // Get all data from RelationShip collection
@@ -89,15 +96,15 @@ namespace FundMangement.EntityFramework.Utils
 
                 // PropertyInfo from TDestination that have TEntity type (Base on type instead of Name)
                 var tentityPropertyInfoFromDestination = Reflection.RefClass.GetPropertyInfoByPropertyNameOfTEntity<TEntity, TDestinationEntity>();
-                 
+
                 // Get value of Attribute ForeignKey
                 Reflection.RefProperty.TryGetAttributeValue(tentityPropertyInfoFromDestination, nameof(ForeignKeyAttribute), out string foreignKeyIdDestinatonName);
 
                 // GetPropertyInfo of value of ForeignKey
                 PropertyInfo foreignKeyIdDestinatonPropertyInfo = Reflection.RefClass.GetPropertyInfoByPropertyName<TDestinationEntity>(foreignKeyIdDestinatonName);
-      
+
                 foreach (var item in entities)
-                { 
+                {
                     var idItemPropertyInfo = Reflection.RefProperty.GetPropertyInfoByPropertyName(typeof(TEntity), nameof(BaseModel<TKey>.ID));
                     var idItemValue = idItemPropertyInfo.GetValue(item);
 
@@ -111,7 +118,6 @@ namespace FundMangement.EntityFramework.Utils
 
             return entities;
         }
-
         private static PropertyInfo GetProertyInfoOfRelationShipInclude<TEntity>(string includeName, out string foreignKeyIdName)
         {
             PropertyInfo specifictPropertyInfo = null;
@@ -133,5 +139,6 @@ namespace FundMangement.EntityFramework.Utils
 
             return specifictPropertyInfo;
         }
+        #endregion
     }
 }

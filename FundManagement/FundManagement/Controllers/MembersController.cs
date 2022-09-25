@@ -25,10 +25,11 @@ namespace FundManagement.Controllers
 
         [HttpGet]
         public override ApiResult<IEnumerable<Member>> GetAll()
-        {
-            new ApiResult<IEnumerable<Member>>(_service.GetAll("Teamxxxaaa")); 
-            new ApiResult<IEnumerable<Member>>(_service.GetAll("Rolexxx")); 
-            return new ApiResult<IEnumerable<Member>>(_service.GetAll("Donationsxxxxx"));
+        { 
+            _service.GetAll(e => e.Role);
+            _service.GetAll(e => e.Team);
+
+            return new ApiResult<IEnumerable<Member>>(_service.GetAll(e=>e.Donations));
         }
     }
 }
